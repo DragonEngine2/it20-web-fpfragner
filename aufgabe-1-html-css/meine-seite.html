@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Persönliche Webseite von Felix Fragner für das Modul IT-20 Web-Grundlagen">
+    <title>Felix Pfragner – Persönliche Webseite | IT-20</title>
+    <style>
+        /* 1. Farb-Variablen */
+        :root {
+            --primary: #005a9c;
+            --primary-dark: #003a66;
+            --primary-hover: #004578;
+            --secondary: #eef5fb;
+            --text-main: #111827;
+            --text-muted: #374151;
+            --bg-page: #f8fafc;
+            --card-bg: #ffffff;
+            --border-color: #cbd5e1;
+            --shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            --radius: 12px;
+        }
+
+        /* Basis-Reset und Typografie */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-main);
+            background-color: var(--bg-page);
+            padding: 0 1rem;
+        }
+
+        .wrapper {
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        /* Header mit optimiertem Kontrast */
+        header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: #ffffff;
+            padding: 2.5rem 1.5rem;
+            border-radius: var(--radius);
+            margin: 1.5rem auto;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 2px solid #002d50;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.75rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+        }
+
+        /* Untertitel mit hohem Kontrast und Kontrast-Badge */
+        header p {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #ffffff;
+            background-color: rgba(0, 20, 45, 0.45);
+            display: inline-block;
+            padding: 0.45rem 1.2rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--card-bg);
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 2rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+        }
+
+        /* Auf Desktop ist der Hamburger-Button verborgen */
+        .menu-toggle {
+            display: none;
+        }
+
+        .nav-header {
+            display: none;
+        }
+
+        /* Flexbox in der Navigation */
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: var(--primary);
+            color: #ffffff;
+        }
+
+        /* Main & Sections */
+        main {
+            margin-bottom: 2.5rem;
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 0.4rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        /* Bild-Styling */
+        .hero-image-container {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .hero-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .image-caption {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-top: 0.6rem;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        /* Karten-Layout mit Flexbox */
+        .karten-container {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Box-Modell: padding, margin und border explizit an der Klasse .karte */
+        .karte {
+            flex: 1;
+            background-color: #ffffff;
+            padding: 1.5rem;
+            /* Box-Modell: Padding (Innenabstand) */
+            margin: 0.5rem 0;
+            /* Box-Modell: Margin (Außenabstand) */
+            border: 2px solid var(--border-color);
+            /* Box-Modell: Border (Rahmen) */
+            border-radius: var(--radius);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .karte:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 20px rgba(0, 90, 156, 0.15);
+        }
+
+        .karte h3 {
+            color: var(--primary);
+            font-size: 1.25rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .karte p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+            color: var(--text-muted);
+        }
+
+        /* Liste */
+        ul {
+            list-style: none;
+            margin: 1rem 0 1.5rem 0;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-main);
+            font-size: 1.05rem;
+        }
+
+        ul li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 1.2rem;
+            line-height: 1.4;
+        }
+
+        /* Kontakt-Bereich */
+        .kontakt-box {
+            background-color: var(--secondary);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            border-left: 5px solid var(--primary);
+            margin-top: 1rem;
+        }
+
+        .kontakt-box p {
+            margin-bottom: 0;
+            color: var(--text-main);
+            font-size: 1.05rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Animation für das Ausklapp-Menü */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Media Query für kleine Bildschirme (max-width: 700px) */
+        @media (max-width: 700px) {
+            body {
+                padding: 0 0.5rem;
+            }
+
+            header {
+                padding: 1.75rem 1rem;
+            }
+
+            header h1 {
+                font-size: 1.6rem;
+            }
+
+            header p {
+                font-size: 0.95rem;
+                display: block;
+                padding: 0.4rem 0.8rem;
+            }
+
+            /* Mobiler Header für Navigation: 3 Linien (Hamburger Icon) */
+            .nav-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+            }
+
+            .nav-title {
+                font-weight: 800;
+                color: var(--primary);
+                font-size: 1.05rem;
+                letter-spacing: 0.5px;
+                text-transform: uppercase;
+            }
+
+            .hamburger-btn {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                width: 28px;
+                height: 20px;
+                cursor: pointer;
+                padding: 2px 0;
+            }
+
+            /* Die berühmten 3 Linien */
+            .hamburger-btn .bar {
+                display: block;
+                width: 100%;
+                height: 3px;
+                background-color: var(--primary);
+                border-radius: 3px;
+                transition: transform 0.3s ease, opacity 0.2s ease, background-color 0.2s ease;
+            }
+
+            /* Navigationslinks standardmäßig auf mobil verstecken (überdeckt die Seite nicht mehr!) */
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                gap: 0.5rem;
+                width: 100%;
+                margin-top: 0.75rem;
+                padding-top: 0.75rem;
+                border-top: 1px solid var(--border-color);
+            }
+
+            .nav-links a {
+                display: block;
+                text-align: center;
+                padding: 0.65rem 1rem;
+                background-color: var(--secondary);
+                border-radius: 8px;
+            }
+
+            .nav-links a:hover {
+                background-color: var(--primary);
+                color: #ffffff;
+            }
+
+            /* Wenn Checkbox angeklickt wird: Menü klappt auf */
+            .menu-toggle:checked~.nav-links {
+                display: flex;
+                animation: slideDown 0.25s ease-out;
+            }
+
+            /* Verwandlung der 3 Linien in ein schickes 'X' bei geöffnetem Menü */
+            .menu-toggle:checked~.nav-header .hamburger-btn .bar:nth-child(1) {
+                transform: translateY(7px) rotate(45deg);
+            }
+
+            .menu-toggle:checked~.nav-header .hamburger-btn .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle:checked~.nav-header .hamburger-btn .bar:nth-child(3) {
+                transform: translateY(-7px) rotate(-45deg);
+            }
+
+            /* Karten untereinander statt nebeneinander */
+            .karten-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            section {
+                padding: 1.25rem 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- 1. Header mit h1 -->
+        <header>
+            <h1>Felix Pfragner – Webentwicklung & Technologie</h1>
+            <p>Willkommen auf meinem persönlichen Web-Portfolio für das Modul IT-20</p>
+        </header>
+
+        <!-- 2. Nav mit Sprungmarken und mobilem Hamburger-Menü -->
+        <nav>
+            <!-- Checkbox für reines CSS Hamburger-Toggle -->
+            <input type="checkbox" id="menu-toggle" class="menu-toggle" aria-label="Menü ein- und ausklappen">
+
+            <!-- Mobile Menüleiste mit den berühmten 3 Linien -->
+            <div class="nav-header">
+                <span class="nav-title">Navigation</span>
+                <label for="menu-toggle" class="hamburger-btn" aria-label="Menü öffnen">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </label>
+            </div>
+
+            <!-- Navigations-Links -->
+            <div class="nav-links">
+                <a href="#ueber-mich">Über mich</a>
+                <a href="#hobbys">Hobbys & Interessen</a>
+                <a href="#kompetenzen">Schwerpunkte</a>
+                <a href="#kontakt">Kontakt</a>
+            </div>
+        </nav>
+
+        <!-- 3. Main mit mehreren Sections und h2 -->
+        <main>
+            <!-- Erste Section: Über mich mit Bild -->
+            <section id="ueber-mich">
+                <h2>Über mich</h2>
+                <p>
+                    Herzlich willkommen auf meiner persönlichen Webseite! Mein Name ist Felix Pfragner und ich
+                    interessiere
+                    mich leidenschaftlich für Informationstechnologie, moderne Softwareentwicklung und kreatives
+                    Webdesign.
+                    Im Rahmen des Moduls <strong>IT-20 Web-Grundlagen</strong> vertiefe ich mein Wissen rund um
+                    semantisches
+                    HTML, strukturiertes CSS und interaktive Webanwendungen.
+                </p>
+                <p>
+                    Technologie begeistert mich besonders dann, wenn durch sauberen Programmcode ansprechende und
+                    intuitive
+                    Lösungen entstehen. Am liebsten tüftle ich an Projekten, die Funktionalität mit einem modernen
+                    Design
+                    verbinden.
+                </p>
+
+                <!-- Bild mit sinnvollem alt-Text -->
+                <div class="hero-image-container">
+                    <img class="hero-image" src="arbeitsplatz.jpg"
+                        alt="Gemütlicher Arbeitsplatz mit modernem Laptop, mechanischer Tastatur und Code auf dem Bildschirm">
+                    <p class="image-caption">Mein digitaler Entwickler-Arbeitsplatz für neue Coding-Ideen.</p>
+                </div>
+            </section>
+
+            <!-- Zweite Section: Hobbys mit Flexbox-Karten -->
+            <section id="hobbys">
+                <h2>Meine Hobbys & Interessen</h2>
+                <p>
+                    In meiner Freizeit widme ich mich verschiedenen technischen und kreativen Projekten.
+                    Hier sind drei Bereiche, die mir besonders viel Freude bereiten:
+                </p>
+
+                <!-- Karten mit Klasse .karte und Flexbox -->
+                <div class="karten-container">
+                    <div class="karte">
+                        <h3>💻 Webentwicklung</h3>
+                        <p>
+                            Erkunden neuester Webstandards, Ausprobieren moderner CSS-Layouts und Entwickeln praktischer
+                            Tools
+                            mit JavaScript und Frameworks.
+                        </p>
+                    </div>
+                    <div class="karte">
+                        <h3>⚙️ Hardware & PC-Bau</h3>
+                        <p>
+                            Zusammenstellung und Bau individueller PC-Systeme, Heimnetzwerk-Konfiguration und
+                            Optimierung von
+                            Hardware-Komponenten.
+                        </p>
+                    </div>
+                    <div class="karte">
+                        <h3>📸 Medien & Design</h3>
+                        <p>
+                            Digitale Bildbearbeitung, Entwerfen nutzerfreundlicher Interfaces und das Finden
+                            harmonischer
+                            Farb- und Typografiekonzepte.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dritte Section: Liste mit Schwerpunkten -->
+            <section id="kompetenzen">
+                <h2>Aktuelle Lernziele & Schwerpunkte</h2>
+                <p>
+                    Folgende Kernkompetenzen und Themenbereiche stehen aktuell im Mittelpunkt meiner praktischen Arbeit:
+                </p>
+                <!-- Liste mit mindestens 3 Punkten -->
+                <ul>
+                    <li>Erstellung semantischer, barrierefreier und strukturierter HTML5-Dokumente</li>
+                    <li>Gestaltung anpassungsfähiger Layouts mit modernem CSS (Flexbox, CSS-Variablen und Media Queries)
+                    </li>
+                    <li>Schrittweise Vertiefung in clientseitiges JavaScript für interaktive Nutzererlebnisse</li>
+                    <li>Versionsverwaltung und strukturierte Zusammenarbeit mit Git und GitHub</li>
+                </ul>
+            </section>
+
+            <!-- Vierte Section: Kontakt -->
+            <section id="kontakt">
+                <h2>Kontakt aufnehmen</h2>
+                <p>
+                    Haben Sie Fragen zu meinen Arbeiten oder möchten Sie sich über spannende Web-Projekte austauschen?
+                    Ich freue mich über jede Nachricht und konstruktives Feedback zu meinen Fortschritten im Modul
+                    IT-20.
+                </p>
+                <div class="kontakt-box">
+                    <p>
+                        📫 <strong>Erreichbarkeit:</strong> Direkt über das Schulportal oder über mein offizielles
+                        GitHub-Repository zur Aufgabe.
+                    </p>
+                </div>
+            </section>
+        </main>
+
+        <!-- 4. Footer -->
+        <footer>
+            <p>&copy; 2026 Felix Pfragner · Modul IT-20 Web-Grundlagen · Erstellt mit semantischem HTML & modernem CSS
+            </p>
+        </footer>
+    </div>
+
+    <!-- Komfort-Script: Schließt das mobile Menü automatisch nach Link-Klick -->
+    <script>
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                const toggle = document.getElementById('menu-toggle');
+                if (toggle) toggle.checked = false;
+            });
+        });
+    </script>
+</body>
+
+</html>
