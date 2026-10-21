@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dieselhydraulische Lokomotiven</title>
+    <style>
+        /* Modernes Design für die IT-Aufgabe */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f6f9;
+        }
+        h1 {
+            color: #d32f2f;
+            border-bottom: 3px solid #d32f2f;
+            padding-bottom: 10px;
+        }
+        .box {
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .info-text {
+            font-style: italic;
+            color: #555;
+            background: #eef2f7;
+            padding: 10px;
+            border-left: 4px solid #007bff;
+        }
+        button {
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background-color: #b71c1c;
+        }
+        input {
+            padding: 8px;
+            font-size: 14px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 200px;
+        }
+
+        /* WICHTIG FÜR BAUSTEIN 4: CSS-Klasse zum Ein-/Ausblenden */
+        .versteckt {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Faszination Dieselhydraulische Lokomotiven</h1>
+    <p>
+        Bei einer <strong>dieselhydraulischen Lokomotive</strong> wird die Kraft des Dieselmotors über ein 
+        Flüssigkeitsgetriebe (Strömungsgetriebe mit Öl) auf die Räder übertragen. Diese Technologie war besonders in 
+        Deutschland der Standard für legendäre Loks wie die <strong>V 200</strong> oder die <strong>Baureihe 218</strong>.
+    </p>
+
+    <!-- Baustein 1: Klick-Reaktion -->
+    <div class="box">
+        <h2>Baustein 1: Wie funktioniert der Antrieb?</h2>
+        <p>Klicke auf den Button, um das technische Geheimnis des Strömungsgetriebes zu lüften:</p>
+        <button id="knopf">Antrieb erklären</button>
+        <p id="ausgabe" class="info-text">Hier wartet die Erklärung...</p>
+    </div>
+
+    <!-- Baustein 2: Zähler -->
+    <div class="box">
+        <h2>Baustein 2: Lokschuppen-Zähler</h2>
+        <p>Simuliere, wie viele dieselhydraulische V 200 Loks in den Bahnhof einfahren:</p>
+        <button id="zaehlKnopf">Lok einfahren lassen 🚂</button>
+        <p>Eingetroffene Lokomotiven: <strong id="zaehlAusgabe" style="font-size: 18px; color: #d32f2f;">0</strong></p>
+    </div>
+
+    <!-- Baustein 3: Eingabe verarbeiten -->
+    <div class="box">
+        <h2>Baustein 3: Lokführer-Registrierung</h2>
+        <p>Gib deinen Namen ein, um die Freigabe für die Baureihe 218 zu erhalten:</p>
+        <input type="text" id="name" placeholder="Dein Name...">
+        <button id="gruessKnopf">Freigabe prüfen</button>
+        <p id="gruessAusgabe" style="font-weight: bold; margin-top: 15px;"></p>
+    </div>
+
+    <!-- Baustein 4: Element ein-/ausblenden -->
+    <div class="box">
+        <h2>Baustein 4: Technische Skizze & Vorteile</h2>
+        <button id="toggleKnopf">Vorteile ein-/ausblenden</button>
+        <div id="geheimnis" class="versteckt" style="margin-top: 15px; background: #fff3cd; padding: 15px; border-radius: 4px;">
+            <h3>Vorteile der Hydraulik im Zugverkehr:</h3>
+            <ul>
+                <li><strong>Geringes Gewicht:</strong> Viel leichter als dieselelektrische Antriebe.</li>
+                <li><strong>Robustheit:</strong> Das Getriebeöl dämpft Stöße perfekt ab.</li>
+                <li><strong>Hohe Anzugskraft:</strong> Ideal für schwere Güterzüge.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Der JavaScript-Block steuert die Interaktionen der Seite -->
+    <script>
+        // Baustein 1: Klick-Reaktion
+        document.querySelector("#knopf").addEventListener("click", function() {
+            document.querySelector("#ausgabe").textContent = "Der Dieselmotor treibt ein Pumpenrad an. Das fließende Öl bringt ein Turbinenrad in Bewegung, welches über Kardanwellen die Räder dreht. Kein Ruckeln, maximale Kraft! ⚙️";
+        });
+
+        // Baustein 2: Zähler
+        let zaehler = 0;
+        document.querySelector("#zaehlKnopf").addEventListener("click", function() {
+            zaehler = zaehler + 1;
+            document.querySelector("#zaehlAusgabe").textContent = zaehler;
+        });
+
+        // Baustein 3: Eingabe verarbeiten (mit Abfang-Spezialfall für leeres Feld)
+        document.querySelector("#gruessKnopf").addEventListener("click", function() {
+            let eingabeName = document.querySelector("#name").value.trim();
+            let ausgabeFeld = document.querySelector("#gruessAusgabe");
+
+            // Spezialfall testen: Was passiert bei leerem Eingabefeld?
+            if (eingabeName === "") {
+                ausgabeFeld.textContent = "🛑 Fehler: Bitte gib einen Namen ein, um die Lokführer-Lizenz zu prüfen!";
+                ausgabeFeld.style.color = "red";
+            } else {
+                ausgabeFeld.textContent = "✅ Berechtigung erteilt! Allzeit gute Fahrt auf der V 200, Lokführer " + eingabeName + "! 🎫";
+                ausgabeFeld.style.color = "green";
+            }
+        });
+
+        // Baustein 4: Element ein-/ausblenden
+        document.querySelector("#toggleKnopf").addEventListener("click", function() {
+            let geheimnisElement = document.querySelector("#geheimnis");
+            geheimnisElement.classList.toggle("versteckt");
+        });
+    </script>
+
+</body>
+</html>

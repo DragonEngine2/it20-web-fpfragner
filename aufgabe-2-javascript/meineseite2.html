@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interaktive Webseite von Felix Pfragner für das Modul IT-20 Web-Grundlagen (Aufgabe 20.2 JavaScript)">
+    <title>Felix Pfragner – Interaktive Webseite | IT-20</title>
+    <style>
+        /* 1. Farb-Variablen */
+        :root {
+            --primary: #005a9c;
+            --primary-dark: #003a66;
+            --primary-hover: #004578;
+            --secondary: #eef5fb;
+            --text-main: #111827;
+            --text-muted: #374151;
+            --bg-page: #f8fafc;
+            --card-bg: #ffffff;
+            --border-color: #cbd5e1;
+            --shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            --radius: 12px;
+            --danger-bg: #fef2f2;
+            --danger-border: #fca5a5;
+            --danger-text: #991b1b;
+            --success-bg: #f0fdf4;
+            --success-border: #86efac;
+            --success-text: #166534;
+        }
+
+        /* CSS-Klasse zum Ausblenden von Elementen (Baustein 4 Requirement) */
+        .versteckt {
+            display: none !important;
+        }
+
+        /* Basis-Reset und Typografie */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-main);
+            background-color: var(--bg-page);
+            padding: 0 1rem;
+        }
+
+        .wrapper {
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        /* Header mit optimiertem Kontrast */
+        header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: #ffffff;
+            padding: 2.5rem 1.5rem;
+            border-radius: var(--radius);
+            margin: 1.5rem auto;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 2px solid #002d50;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.75rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+        }
+
+        header p {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #ffffff;
+            background-color: rgba(0, 20, 45, 0.45);
+            display: inline-block;
+            padding: 0.45rem 1.2rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--card-bg);
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 2rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+        }
+
+        .menu-toggle {
+            display: none;
+        }
+
+        .nav-header {
+            display: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: var(--primary);
+            color: #ffffff;
+        }
+
+        /* Main & Sections */
+        main {
+            margin-bottom: 2.5rem;
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 0.4rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        /* Bild-Styling */
+        .hero-image-container {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .hero-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .image-caption {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-top: 0.6rem;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        /* Karten-Layout mit Flexbox */
+        .karten-container {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .karte {
+            flex: 1;
+            background-color: #ffffff;
+            padding: 1.5rem;
+            margin: 0.5rem 0;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .karte:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 20px rgba(0, 90, 156, 0.15);
+        }
+
+        .karte h3 {
+            color: var(--primary);
+            font-size: 1.25rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .karte p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+            color: var(--text-muted);
+        }
+
+        /* Liste */
+        ul {
+            list-style: none;
+            margin: 1rem 0 1.5rem 0;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-main);
+            font-size: 1.05rem;
+        }
+
+        ul li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 1.2rem;
+            line-height: 1.4;
+        }
+
+        /* STYLING FÜR DIE NEUEN INTERAKTIVEN JS-BAUSTEINE */
+        .js-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.25rem;
+        }
+
+        .js-card {
+            background-color: var(--secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .js-card h3 {
+            color: var(--primary-dark);
+            font-size: 1.15rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 0.65rem 1.2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background-color: #475569;
+        }
+
+        .btn-secondary:hover {
+            background-color: #334155;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .input-field {
+            flex: 1;
+            padding: 0.6rem 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 90, 156, 0.15);
+        }
+
+        .output-box {
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            background-color: #ffffff;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-weight: 600;
+            color: var(--primary-dark);
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+        }
+
+        .output-box.error {
+            background-color: var(--danger-bg);
+            border-color: var(--danger-border);
+            color: var(--danger-text);
+        }
+
+        .output-box.success {
+            background-color: var(--success-bg);
+            border-color: var(--success-border);
+            color: var(--success-text);
+        }
+
+        .badge-counter {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-align: center;
+            margin: 0.5rem 0;
+        }
+
+        .toggle-box {
+            background-color: #ffffff;
+            border: 2px dashed var(--primary);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 0.75rem;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary-dark);
+            transition: all 0.3s ease;
+        }
+
+        /* Kontakt-Bereich */
+        .kontakt-box {
+            background-color: var(--secondary);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            border-left: 5px solid var(--primary);
+            margin-top: 1rem;
+        }
+
+        .kontakt-box p {
+            margin-bottom: 0;
+            color: var(--text-main);
+            font-size: 1.05rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Mobile Responsive adjustments */
+        @media (max-width: 700px) {
+            body {
+                padding: 0 0.5rem;
+            }
+
+            header {
+                padding: 1.75rem 1rem;
+            }
+
+            header h1 {
+                font-size: 1.6rem;
+            }
+
+            header p {
+                font-size: 0.95rem;
+                display: block;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .nav-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+            }
+
+            .nav-title {
+                font-weight: 800;
+                color: var(--primary);
+                font-size: 1.05rem;
+                letter-spacing: 0.5px;
+                text-transform: uppercase;
+            }
+
+            .hamburger-btn {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                width: 28px;
+                height: 20px;
+                cursor: pointer;
+                padding: 2px 0;
+            }
+
+            .hamburger-btn .bar {
+                display: block;
+                width: 100%;
+                height: 3px;
+                background-color: var(--primary);
+                border-radius: 3px;
+                transition: transform 0.3s ease, opacity 0.2s ease, background-color 0.2s ease;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                gap: 0.5rem;
+                width: 100%;
+                margin-top: 0.75rem;
+                padding-top: 0.75rem;
+                border-top: 1px solid var(--border-color);
+            }
+
+            .nav-links a {
+                display: block;
+                text-align: center;
+                padding: 0.65rem 1rem;
+                background-color: var(--secondary);
+                border-radius: 8px;
+            }
+
+            .menu-toggle:checked~.nav-links {
+                display: flex;
+            }
+
+            .menu-toggle:checked~.nav-header .hamburger-btn .bar:nth-child(1) {
+                transform: translateY(7px) rotate(45deg);
+            }
+
+            .menu-toggle:checked~.nav-header .hamburger-btn .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle:checked~.nav-header .hamburger-btn .bar:nth-child(3) {
+                transform: translateY(-7px) rotate(-45deg);
+            }
+
+            .karten-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            section {
+                padding: 1.25rem 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Header -->
+        <header>
+            <h1>Felix Pfragner – Webentwicklung & Technologie</h1>
+            <p>Willkommen auf meinem interaktiven Web-Portfolio (Aufgabe 20.2)</p>
+        </header>
+
+        <!-- Nav -->
+        <nav>
+            <input type="checkbox" id="menu-toggle" class="menu-toggle" aria-label="Menü ein- und ausklappen">
+            <div class="nav-header">
+                <span class="nav-title">Navigation</span>
+                <label for="menu-toggle" class="hamburger-btn" aria-label="Menü öffnen">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </label>
+            </div>
+            <div class="nav-links">
+                <a href="#ueber-mich">Über mich</a>
+                <a href="#hobbys">Hobbys & Interessen</a>
+                <a href="#interaktiv">Interaktivität</a>
+                <a href="#kompetenzen">Schwerpunkte</a>
+                <a href="#kontakt">Kontakt</a>
+            </div>
+        </nav>
+
+        <main>
+            <!-- Section 1: Über mich -->
+            <section id="ueber-mich">
+                <h2>Über mich</h2>
+                <p>
+                    Herzlich willkommen auf meiner persönlichen Webseite! Mein Name ist Felix Pfragner und ich
+                    interessiere mich leidenschaftlich für Informationstechnologie, moderne Softwareentwicklung und
+                    kreatives Webdesign. Im Rahmen des Moduls <strong>IT-20 Web-Grundlagen</strong> vertiefe ich mein
+                    Wissen rund um semantisches HTML, strukturiertes CSS und interaktive Webanwendungen.
+                </p>
+                <div class="hero-image-container">
+                    <img class="hero-image" src="arbeitsplatz.jpg"
+                        alt="Gemütlicher Arbeitsplatz mit modernem Laptop, mechanischer Tastatur und Code auf dem Bildschirm">
+                    <p class="image-caption">Mein digitaler Entwickler-Arbeitsplatz für neue Coding-Ideen.</p>
+                </div>
+            </section>
+
+            <!-- Section 2: Hobbys -->
+            <section id="hobbys">
+                <h2>Meine Hobbys & Interessen</h2>
+                <div class="karten-container">
+                    <div class="karte">
+                        <h3>💻 Webentwicklung</h3>
+                        <p>Erkunden neuester Webstandards, Ausprobieren moderner CSS-Layouts und Entwickeln praktischer
+                            Tools mit JavaScript.</p>
+                    </div>
+                    <div class="karte">
+                        <h3>⚙️ Hardware & PC-Bau</h3>
+                        <p>Zusammenstellung und Bau individueller PC-Systeme, Heimnetzwerk-Konfiguration und Optimierung.
+                        </p>
+                    </div>
+                    <div class="karte">
+                        <h3>📸 Medien & Design</h3>
+                        <p>Digitale Bildbearbeitung, Entwerfen nutzerfreundlicher Interfaces und das Finden
+                            harmonischer Farbkonzepte.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION JAVASCRIPT BAUSTEINE -->
+            <section id="interaktiv">
+                <h2>Interaktive JavaScript-Bausteine</h2>
+                <p>Steuerelemente reagieren ohne Neuladen der Seite direkt auf Eingaben und Klicks.</p>
+
+                <div class="js-grid">
+                    <!-- Baustein 1: Klick-Reaktion -->
+                    <div class="js-card">
+                        <div>
+                            <h3>1. Klick-Reaktion</h3>
+                            <p>Klicke auf den Button, um den Text darunter zu ändern.</p>
+                        </div>
+                        <div>
+                            <button id="knopf" class="btn">Klick mich!</button>
+                            <p id="ausgabe" class="output-box">Warte auf Klick...</p>
+                        </div>
+                    </div>
+
+                    <!-- Baustein 2: Zähler -->
+                    <div class="js-card">
+                        <div>
+                            <h3>2. Zähler</h3>
+                            <p>Erhöht bei jedem Klick eine JavaScript-Variable um +1.</p>
+                        </div>
+                        <div>
+                            <div class="badge-counter"><span id="zaehler-stand">0</span> Klicks</div>
+                            <button id="zaehler-btn" class="btn w-full">Zähler erhöhen</button>
+                        </div>
+                    </div>
+
+                    <!-- Baustein 3: Eingabe verarbeiten -->
+                    <div class="js-card">
+                        <div>
+                            <h3>3. Eingabe verarbeiten</h3>
+                            <p>Gib deinen Namen ein. Leere Eingaben werden abgefangen.</p>
+                        </div>
+                        <div>
+                            <div class="input-group">
+                                <input type="text" id="name" class="input-field" placeholder="Dein Name...">
+                                <button id="begruessung-btn" class="btn">Senden</button>
+                            </div>
+                            <p id="begruessung-ausgabe" class="output-box">Bitte Namen eingeben.</p>
+                        </div>
+                    </div>
+
+                    <!-- Baustein 4: Element ein-/ausblenden -->
+                    <div class="js-card">
+                        <div>
+                            <h3>4. Element ein-/ausblenden</h3>
+                            <p>Schaltet ein verstecktes Element per Class Toggle um.</p>
+                        </div>
+                        <div>
+                            <button id="toggle-btn" class="btn btn-secondary">Inhalt umschalten</button>
+                            <div id="geheimer-inhalt" class="toggle-box versteckt">
+                                🎉 Das ist eine versteckte Zusatz-Information!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Schwerpunkte -->
+            <section id="kompetenzen">
+                <h2>Aktuelle Lernziele & Schwerpunkte</h2>
+                <ul>
+                    <li>Erstellung semantischer, barrierefreier und strukturierter HTML5-Dokumente</li>
+                    <li>Gestaltung anpassungsfähiger Layouts mit modernem CSS</li>
+                    <li>Schrittweise Vertiefung in clientseitiges JavaScript für interaktive Nutzererlebnisse</li>
+                    <li>Versionsverwaltung und strukturierte Zusammenarbeit mit Git und GitHub</li>
+                </ul>
+            </section>
+
+            <!-- Section 4: Kontakt -->
+            <section id="kontakt">
+                <h2>Kontakt aufnehmen</h2>
+                <div class="kontakt-box">
+                    <p>📫 <strong>Erreichbarkeit:</strong> Direkt über das Schulportal oder über mein offizielles GitHub-Repository zur Aufgabe.</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2026 Felix Pfragner · Modul IT-20 Web-Grundlagen · Interaktive Version (Aufgabe 20.2)</p>
+        </footer>
+    </div>
+
+    <!-- JAVASCRIPT BLOCK FÜR AUFGABE 20.2 -->
+    <script>
+        // Baustein 1: Klick-Reaktion
+        const knopf = document.querySelector("#knopf");
+        const ausgabe = document.querySelector("#ausgabe");
+
+        knopf.addEventListener("click", function () {
+            ausgabe.textContent = "Super! Du hast auf den Button geklickt. JavaScript reagiert direkt!";
+            ausgabe.classList.add("success");
+        });
+
+        // Baustein 2: Zähler
+        let zaehler = 0;
+        const zaehlerBtn = document.querySelector("#zaehler-btn");
+        const zaehlerStand = document.querySelector("#zaehler-stand");
+
+        zaehlerBtn.addEventListener("click", function () {
+            zaehler = zaehler + 1;
+            zaehlerStand.textContent = zaehler;
+        });
+
+        // Baustein 3: Eingabe verarbeiten (mit Abfang von leeren Eingaben)
+        const nameInput = document.querySelector("#name");
+        const begruessungBtn = document.querySelector("#begruessung-btn");
+        const begruessungAusgabe = document.querySelector("#begruessung-ausgabe");
+
+        begruessungBtn.addEventListener("click", function () {
+            const eingabeName = nameInput.value.trim();
+
+            // Spezialfall-Abfrage: Was passiert bei leerem Eingabefeld?
+            if (eingabeName === "") {
+                begruessungAusgabe.textContent = "⚠️ Bitte gib zuerst einen Namen ein!";
+                begruessungAusgabe.className = "output-box error";
+            } else {
+                begruessungAusgabe.textContent = "Hallo, " + eingabeName + "! Willkommen auf meiner Seite.";
+                begruessungAusgabe.className = "output-box success";
+            }
+        });
+
+        // Baustein 4: Element ein-/ausblenden
+        const toggleBtn = document.querySelector("#toggle-btn");
+        const geheimerInhalt = document.querySelector("#geheimer-inhalt");
+
+        toggleBtn.addEventListener("click", function () {
+            geheimerInhalt.classList.toggle("versteckt");
+        });
+
+        // Komfort-Script für mobiles Hamburger-Menü
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                const toggle = document.getElementById('menu-toggle');
+                if (toggle) toggle.checked = false;
+            });
+        });
+    </script>
+</body>
+
+</html>
